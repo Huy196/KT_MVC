@@ -14,27 +14,30 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-@WebServlet(name = "EmployeeServlet", value ="/employee" )
+@WebServlet(name = "EmployeeServlet", value = "/employee")
 public class EmployeeServlet extends HttpServlet {
     private EmployeeService employeeService = new EmployeeServicelmpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
-        if (action == null){
+        if (action == null) {
             action = "  ";
         }
-        switch (action){
-            case "add" :
-                showEmployeeForm(req,resp);
+        switch (action) {
+            case "add":
+                showEmployeeForm(req, resp);
+            case "delete":
+                deleteEmployee(req, resp);
             default:
-                showEmployee(req,resp);
+                showEmployee(req, resp);
         }
     }
 
     private void showEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employee/AddEmployee.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
 
     private void showEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,7 +45,7 @@ public class EmployeeServlet extends HttpServlet {
         req.setAttribute("employees", employees);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/employee/List.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
 
     @Override
@@ -54,10 +57,16 @@ public class EmployeeServlet extends HttpServlet {
         }
         switch (action) {
             case "add":
-                addEmployee(req,resp);
+                addEmployee(req, resp);
             default:
                 break;
         }
+    }
+
+    private void deleteEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        employeeService.remove(id);
+        showEmployee(req, resp);
     }
 
     private void addEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -69,11 +78,11 @@ public class EmployeeServlet extends HttpServlet {
         double salary = Double.parseDouble(req.getParameter("salary"));
         System.out.println(name + age);
 
-        Employee employee = new Employee(id,name,age,jobPosition,departments,salary);
+        Employee employee = new Employee(id, name, age, jobPosition, departments, salary);
 
         this.employeeService.add(employee);
 
-        showEmployee(req,resp);
+        showEmployee(req, resp);
 
     }
 
