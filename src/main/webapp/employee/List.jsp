@@ -40,7 +40,7 @@
             <td>${employee.salary}</td>
             <td>
                 <a href="${pageContext.request.contextPath}/employee?action=delete&id=${employee.ma}">Delete</a>
-                <a>delete</a>
+                <a href="${pageContext.request.contextPath}/employee?action=update&id=${employee.ma}">update</a>
             </td>
         </tr>
     </c:forEach>

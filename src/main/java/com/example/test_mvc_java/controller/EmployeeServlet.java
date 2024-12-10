@@ -28,10 +28,53 @@ public class EmployeeServlet extends HttpServlet {
         switch (action) {
             case "add":
                 showEmployeeForm(req, resp);
+                break;
             case "delete":
                 deleteEmployee(req, resp);
+                break;
+            case "update":
+                updateEmployee(req, resp);
+                break;
             default:
                 showEmployee(req, resp);
+        }
+    }
+
+//    private void updateEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        RequestDispatcher dispatcher = req.getRequestDispatcher("/employee/UpdateEmployee.jsp");
+//        dispatcher.forward(req, resp);
+//    }
+
+    private void updateEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            String name = req.getParameter("name");
+            int age = Integer.parseInt(req.getParameter("age"));
+            String jobPosition = req.getParameter("jobPosition");
+            String departments = req.getParameter("departments");
+            double salary = Double.parseDouble(req.getParameter("salary"));
+
+            Employee employee = employeeService.searchById(id);
+
+            if (employee != null) {
+                employee.setName(name);
+                employee.setAge(age);
+                employee.setJobPosition(jobPosition);
+                employee.setDepartments(departments);
+                employee.setSalary(salary);
+
+                employeeService.update(id, employee);
+
+                req.setAttribute("employee", employee);
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/employee/UpdateEmployee.jsp");
+                dispatcher.forward(req, resp);
+            } else {
+                req.setAttribute("error", "Không tìm thấy nhân viên với ID: " + id);
+                req.getRequestDispatcher("/update.jsp").forward(req, resp);
+            }
+        } catch (NumberFormatException e) {
+            req.setAttribute("error", "Dữ liệu đầu vào không hợp lệ.");
+            req.getRequestDispatcher("/update.jsp").forward(req, resp);
         }
     }
 
@@ -58,6 +101,8 @@ public class EmployeeServlet extends HttpServlet {
         switch (action) {
             case "add":
                 addEmployee(req, resp);
+            case "update":
+//                updateEmployee(req, resp);
             default:
                 break;
         }

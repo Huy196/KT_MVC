@@ -34,11 +34,17 @@ public class EmployeeServicelmpl implements EmployeeService {
 
     @Override
     public void update(int id, Employee employee) {
+       employees.put(id,employee);
 
     }
 
     @Override
     public void remove(int id) {
         employees.remove(id);
+    }
+
+    @Override
+    public Employee searchById(int id) {
+        return employees.get(id);
     }
 }
