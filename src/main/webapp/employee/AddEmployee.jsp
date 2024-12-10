@@ -11,8 +11,7 @@
     <title>ADD Employee</title>
 </head>
 <body>
-<p>
-</p>
+
 <form method="post" action="/employee?action=add">
     <fieldset>
         <legend>Customer information</legend>
