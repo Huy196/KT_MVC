@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 @WebServlet(name = "EmployeeServlet", value ="/employee" )
 public class EmployeeServlet extends HttpServlet {
@@ -21,12 +22,19 @@ public class EmployeeServlet extends HttpServlet {
         String action = req.getParameter("action");
 
         if (action == null){
-            action = " ";
+            action = "  ";
         }
         switch (action){
+            case "add" :
+                showEmployeeForm(req,resp);
             default:
                 showEmployee(req,resp);
         }
+    }
+
+    private void showEmployeeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/employee/AddEmployee.jsp");
+        dispatcher.forward(req,resp);
     }
 
     private void showEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,6 +47,36 @@ public class EmployeeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+
+        if (action == null) {
+            action = "";
+        }
+        switch (action) {
+            case "add":
+                addEmployee(req,resp);
+            default:
+                break;
+        }
+    }
+
+    private void addEmployee(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = (int) (Math.random() * 1000);
+        String name = req.getParameter("name");
+        int age = Integer.parseInt(req.getParameter("age"));
+        String jobPosition = req.getParameter("jobPosition");
+        String departments = req.getParameter("departments");
+        double salary = Double.parseDouble(req.getParameter("salary"));
+        System.out.println(name + age);
+
+        Employee employee = new Employee(id,name,age,jobPosition,departments,salary);
+
+        this.employeeService.add(employee);
+
+        showEmployee(req,resp);
 
     }
+
+
 }
+
