@@ -39,6 +39,6 @@ public class EmployeeServicelmpl implements EmployeeService {
 
     @Override
     public void remove(int id) {
-
+        employees.remove(id);
     }
 }

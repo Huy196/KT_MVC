@@ -39,7 +39,7 @@
             <td>${employee.departments}</td>
             <td>${employee.salary}</td>
             <td>
-                <a>delete</a>
+                <a href="${pageContext.request.contextPath}/employee?action=delete&id=${employee.ma}">Delete</a>
                 <a>delete</a>
             </td>
         </tr>
