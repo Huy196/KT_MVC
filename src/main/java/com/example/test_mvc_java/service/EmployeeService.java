@@ -13,4 +13,6 @@ public interface EmployeeService {
 
     void update(int id, Employee employee);
     void remove(int id);
+
+    Employee searchById(int id);
 }
