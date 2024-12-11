@@ -17,6 +17,7 @@
     <a href="/employee?action=list">List employees</a>
 </p>
 <form>
+    <a href="/employee?action=add">Thêm</a>
 
 </form>
 <table border="0.4">
@@ -29,7 +30,7 @@
         <td>Mức lương</td>
         <td>Chức năng</td>
     </tr>
-    <c:forEach items= "${employees}" var="employee">
+    <c:forEach items="${employees}" var="employee">
         <tr>
             <td>${employee.ma}</td>
             <td>${employee.name}</td>
@@ -38,9 +39,8 @@
             <td>${employee.departments}</td>
             <td>${employee.salary}</td>
             <td>
-                <a>delete</a>
-                <a>delete</a>
-                <a>delete</a>
+                <a href="${pageContext.request.contextPath}/employee?action=delete&id=${employee.ma}">Delete</a>
+                <a href="${pageContext.request.contextPath}/employee?action=update&id=${employee.ma}">update</a>
             </td>
         </tr>
     </c:forEach>
